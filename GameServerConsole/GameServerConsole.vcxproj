@@ -148,10 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cserver.h" />
+    <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cserver.cpp" />
     <ClCompile Include="GameServerConsole.cpp" />
+    <ClCompile Include="IMServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

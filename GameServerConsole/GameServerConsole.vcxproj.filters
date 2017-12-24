@@ -21,12 +21,18 @@
     <ClInclude Include="cserver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServerConsole.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="cserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IMServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

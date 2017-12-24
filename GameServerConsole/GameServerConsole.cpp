@@ -6,7 +6,7 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-int main()
+int main222()
 {
 	FServer server;///new FServer;
 	if (server.InitWsa())
