@@ -2,7 +2,7 @@
 #ifndef _FSERVER_H_
 #define _FSERVER_H_
 #define INFO_PRINT true			//控制是否打印基础信息
-
+#include "define.h"
 
 class FServer {
 private:
@@ -30,7 +30,7 @@ public:
 
 	virtual void NewRequest(SOCKET socket) = 0;				//有一条新的请求
 	virtual void CloseRequest(SOCKET socket) = 0;			//关闭了一条请求
-	virtual void ReceiveMessage(SOCKET socket) = 0;			//发送过来新的消息
+	virtual void ReceiveMessage(SOCKET socket, INT8 buffer[], INTEGER len) = 0;			//发送过来新的消息
 };
 
 #endif

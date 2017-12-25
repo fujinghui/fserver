@@ -85,6 +85,8 @@ void Server::Run() {
 				INTEGER len = sizeof(sockaddr_in);
 				SOCKET socketClient = accept(this->socketServer, (struct sockaddr*)&addrClient, &len);
 				this->socketClients[this->socketClientIndex++] = socketClient;
+				this->NewRequest(socketClient);			//调用抽象函数，有新的客户端
+
 			}
 			else
 			{
@@ -93,11 +95,14 @@ void Server::Run() {
 					if (FD_ISSET(this->socketClients[i], &fdReadSockets))
 					{
 						INTEGER messageLen = recv(this->socketClients[i], buffer, sizeof(buffer), 0);
+						buffer[messageLen] = '\0';
 						if (messageLen > 0)
 						{
 #ifdef INFO_PRINT
-							std::cout << "receive message:" << buffer << std::endl;
+							//std::cout << "receive message:" << buffer << std::endl;
 #endif
+							//调用抽象函数，有新的消息来到
+							this->ReceiveMessage(this->socketClients[i], buffer, messageLen);			//
 						}
 						else						//客户端关闭了链接
 						{
@@ -109,9 +114,11 @@ void Server::Run() {
 								index++;
 							}
 							this->socketClientIndex--;
+							//关闭客户端之调用该函数
+							this->CloseRequest(closeSocket);
 							closesocket(closeSocket);
 #ifdef INFO_PRINT
-							printf("close socket!socket handle:%d\n", closeSocket);
+							//printf("close socket!socket handle:%d\n", closeSocket);
 #endif
 						}
 					}
