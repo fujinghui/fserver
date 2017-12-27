@@ -2,8 +2,9 @@
 #ifndef _FSERVER_H_
 #define _FSERVER_H_
 #define INFO_PRINT true			//控制是否打印基础信息
-#include "define.h"
 
+#include "define.h"
+#include <string>
 class FServer {
 private:
 	WSADATA wss;
@@ -33,4 +34,22 @@ public:
 	virtual void ReceiveMessage(SOCKET socket, INT8 buffer[], INTEGER len) = 0;			//发送过来新的消息
 };
 
+
+//工具函数
+class WebSocketHeader {
+public:
+	std::string header;
+	std::string host;
+	std::string upgrade;
+	std::string connection;
+	std::string sec_websocket_key;
+	std::string sec_websocket_protocol;
+	std::string sec_websocket_version;
+	std::string origin;
+public:
+	WebSocketHeader();
+	WebSocketHeader(std::string &str);					//构造函数
+	void ParseHeader(std::string &str);	//解析头部信息
+	std::string ProductResponse();
+};
 #endif

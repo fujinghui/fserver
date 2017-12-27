@@ -1,9 +1,18 @@
+
+#define _CRT_SECURE_NO_DEPRECATE
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <stdio.h>
+
 #include <WinSock2.h>
 #include "define.h"
-#include "cserver.h"
 
+#include "sha1.h"
+#include "cserver.h"
+#include "base64.h"
+
+using namespace std;
 bool FServer::InitWsa() {
 	if (WSAStartup(MAKEWORD(2, 2), &this->wss) != 0)
 		return false;
@@ -86,7 +95,6 @@ void Server::Run() {
 				SOCKET socketClient = accept(this->socketServer, (struct sockaddr*)&addrClient, &len);
 				this->socketClients[this->socketClientIndex++] = socketClient;
 				this->NewRequest(socketClient);			//调用抽象函数，有新的客户端
-
 			}
 			else
 			{
@@ -127,4 +135,103 @@ void Server::Run() {
 
 		}
 	}
+}
+
+
+//WebSocket头部信息解析类
+/*
+	样例信息：
+	GET /chat HTTP/1.1
+	Host: server.example.com
+	Upgrade: websocket
+	Connection: Upgrade
+	Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+	Sec-WebSocket-Protocol: chat, superchat
+	Sec-WebSocket-Version: 13
+	Origin: http://example.com
+*/
+WebSocketHeader::WebSocketHeader() {
+
+}
+//构造函数
+WebSocketHeader::WebSocketHeader(string &str) {
+	this->ParseHeader(str);
+}
+//解析函数
+void WebSocketHeader::ParseHeader(string &str) {
+	std::istringstream stream(str);
+	string reqType;
+	getline(stream, reqType);			//读取头部信息的一行记录
+	if (reqType.substr(0, 3) != "GET")	//websocket头部信息的前四个字节必须是GET
+		return;
+	this->header = reqType;				//拷贝头部信息
+	string header;
+	string::size_type pos = 0;
+	string websocketKey;
+	while (getline(stream, header) && header != "\r")
+	{
+		header.erase(header.end() - 1);	//去掉最后一个换行符"\n"
+		pos = header.find(": ", 0);
+		if (pos != string::npos)
+		{
+			string key = header.substr(0, pos);
+			string value = header.substr(pos + 2);
+			if (key == string("Host"))
+			{
+				this->host = value;
+			}
+			else if(key == string("Upgrade"))
+			{
+				this->upgrade = value;
+			}
+			else if (key == string("Connection"))
+			{
+				this->connection = value;
+			}
+			else if (key == string("Sec-WebSocket-Key"))
+			{
+				this->sec_websocket_key = value;
+			}
+			else if (key == string("Sec-WebSocket-Protocol"))
+			{
+				this->sec_websocket_protocol = value;
+			}
+			else if (key == string("Sec-WebSocket-Version"))
+			{
+				this->sec_websocket_version = value;
+			}
+			else if (key == string("Origin"))
+			{
+				this->origin = value;
+			}
+		}
+	}
+}
+string WebSocketHeader::ProductResponse() {
+	string magicKey("258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+	string serverKey = this->sec_websocket_key + magicKey;
+	char shaHash[32];
+	memset(shaHash, 0, sizeof(shaHash));
+
+	SHA1 sha;
+	unsigned int message_digest[5];
+	sha.Reset();
+	sha << serverKey.c_str();
+	sha.Result(message_digest);
+	for (int i = 0; i < 5; i++)
+		message_digest[i] = htonl(message_digest[i]);
+	serverKey = base64_encode(reinterpret_cast<const unsigned char*>(message_digest), 20);
+	serverKey += "\r\n";
+	
+
+	//char buffer[1024];
+	string buffer;
+	buffer.append("HTTP/1.1 101 Switching Protocols\r\n");
+	buffer.append("Upgrade: websocket\r\n");
+	buffer.append("Connection: Upgrade\r\n");
+	buffer.append("Sec-WebSocket-Accept: ");
+	buffer.append(serverKey);
+	//buffer.append("Sec-WebSocket-Protocol: chat");
+	buffer.append("\r\n\0");
+	return buffer;
 }

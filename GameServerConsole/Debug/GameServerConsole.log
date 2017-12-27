@@ -1,3 +1,4 @@
-﻿  IMServer.cpp
+﻿  cserver.cpp
+d:\code\game\gameserverconsole\gameserverconsole\cserver.cpp(45): warning C4244: “参数”: 从“long”转换到“u_short”，可能丢失数据
   GameServerConsole.vcxproj -> D:\code\game\GameServerConsole\Debug\GameServerConsole.exe
   GameServerConsole.vcxproj -> D:\code\game\GameServerConsole\Debug\GameServerConsole.pdb (Partial PDB)

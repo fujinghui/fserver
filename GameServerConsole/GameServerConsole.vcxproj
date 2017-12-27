@@ -149,11 +149,15 @@
   <ItemGroup>
     <ClInclude Include="cserver.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="sha1.h" />
+    <ClInclude Include="base64.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cserver.cpp" />
     <ClCompile Include="GameServerConsole.cpp" />
     <ClCompile Include="IMServer.cpp" />
+    <ClCompile Include="sha1.cpp" />
+    <ClCompile Include="base64.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
