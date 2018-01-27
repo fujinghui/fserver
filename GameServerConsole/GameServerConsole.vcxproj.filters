@@ -30,6 +30,9 @@
     <ClInclude Include="base64.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="websocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServerConsole.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="base64.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="websocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
