@@ -1,3 +1,5 @@
 ﻿  IMServer.cpp
+d:\code\game\gameserverconsole\gameserverconsole\jsonla.h(9): warning C4005: “TRACK”: 宏重定义
+  d:\code\game\gameserverconsole\gameserverconsole\jsonla.h(6): note: 参见“TRACK”的前一个定义
   GameServerConsole.vcxproj -> D:\code\game\GameServerConsole\Debug\GameServerConsole.exe
   GameServerConsole.vcxproj -> D:\code\game\GameServerConsole\Debug\GameServerConsole.pdb (Partial PDB)

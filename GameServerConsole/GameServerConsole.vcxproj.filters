@@ -33,6 +33,15 @@
     <ClInclude Include="websocket.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="jsonla.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FSQL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServerConsole.cpp">
@@ -51,6 +60,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="websocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="jsonla.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FSQL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

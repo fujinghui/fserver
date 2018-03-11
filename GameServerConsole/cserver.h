@@ -28,7 +28,6 @@ public:
 	Server(INT32 port);
 	Server();
 	void StartServer();
-
 	virtual void NewRequest(SOCKET socket) = 0;											//有一条新的请求
 	virtual void CloseRequest(SOCKET socket) = 0;										//关闭了一条请求
 	virtual void ReceiveMessage(SOCKET socket, INT8 buffer[], INTEGER len) = 0;			//发送过来新的消息

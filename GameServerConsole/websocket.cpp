@@ -49,6 +49,7 @@ INTEGER WebSocketServer::encoding(string inMessage, string &outFrame, WS_FrameTy
 }
 //
 void WebSocketServer::decoding(string frame, string &outMessage) {
+	
 	int ret = WS_OPENING_FRAME;
 	const char *frameData = frame.c_str();
 	const int frameLength = frame.size();
@@ -57,6 +58,7 @@ void WebSocketServer::decoding(string frame, string &outMessage) {
 	{
 		ret = WS_ERROR_FRAME;
 	}
+	//cout << "数据长度：" << (int)frameData[1] << endl;
 	//检查扩展位并忽略
 	if (frameData[0] & 0x70 != 0x0)
 	{
@@ -85,7 +87,7 @@ void WebSocketServer::decoding(string frame, string &outMessage) {
 		}
 		else if (payloadLength == 0x7f)
 		{
-			cout << "数据过长" << endl;
+			//cout << "数据过长" << endl;
 			//数据过长，暂时不支持
 			ret = WS_ERROR_FRAME;
 		}
@@ -154,15 +156,12 @@ void WebSocketServer::ReceiveMessage(SOCKET socket, INT8 buffer[], INTEGER len) 
 		//客户端关闭连接
 		if (message.size() == 0)
 		{
-			//客户端关闭
 			this->CloseClient(socket);
 		}
 		else
 		{
 			string outmessage(message);
-			string realmessage;
-			this->encoding(string(outmessage), realmessage, WS_BINARY_FRAME);
-			this->OnMessage(socket, realmessage.c_str(), realmessage.length());
+			this->OnMessage(socket, outmessage.c_str(), outmessage.length());
 		}
 	}
 }
@@ -172,6 +171,6 @@ map<SOCKET, SOCKET> WebSocketServer::getSocketMap() {
 }
 void WebSocketServer::SendMessage(SOCKET socket, string &message) {
 	string outMessage;
-	this->decoding(message, outMessage);
-	send(socket, message.c_str(), message.length(), 0);
+	this->encoding(message, outMessage, WS_BINARY_FRAME);
+	send(socket, outMessage.c_str(), outMessage.length(), 0);
 }

@@ -25,7 +25,8 @@ enum WS_FrameType {
 
 class WebSocketServer :public Server {
 private :
-	map<SOCKET, SOCKET> socketSets;	//socket
+	map<SOCKET, SOCKET> socketSets;			//socket
+	map<SOCKET, string> socketHeadSets;		//socket与头部信息对应关系
 	INTEGER encoding(string frame, string &outMessage, WS_FrameType frameType);									//编码
 	void decoding(string frame, string &outMessage);															//解码
 public:
